@@ -44,8 +44,14 @@ const COLUMNS = [
   },
 ];
 
+/*
+  inline-flex with vertical padding, not a bare inline link. At 14.5px these were
+  19px tall, under the 24px minimum tap target, and a footer is exactly where people
+  are aiming with a thumb. The list gap drops to compensate, so the visual rhythm is
+  unchanged while each target grows to ~35px.
+*/
 const LINK =
-  "rounded-md text-[14.5px] text-muted-foreground transition-colors duration-200 ease-out hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring";
+  "inline-flex rounded-md py-2 text-[14.5px] text-muted-foreground transition-colors duration-200 ease-out hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring";
 
 export function SiteFooter() {
   return (
@@ -61,7 +67,7 @@ export function SiteFooter() {
               <Logo />
             </Link>
             <p className="type-body mt-4 max-w-xs text-[14.5px] leading-6 text-muted-foreground">
-              One queue for eight networks, with the replies and the numbers in
+              One queue for six networks, with the replies and the numbers in
               the same place.
             </p>
           </div>
@@ -75,7 +81,7 @@ export function SiteFooter() {
               <h2 className="text-[13px] font-semibold text-foreground">
                 {column.heading}
               </h2>
-              <ul className="mt-4 flex flex-col gap-2.5">
+              <ul className="mt-3 flex flex-col gap-0.5">
                 {column.links.map((link) => (
                   <li key={link.label}>
                     <Link href={link.href} className={LINK}>

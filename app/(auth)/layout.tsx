@@ -5,19 +5,17 @@ import { type Network } from "../components/brand-marks";
 
 /*
   The panel earns its half of the screen by answering the question someone has at
-  this exact moment: which accounts am I about to connect. Showing the eight marks
-  is concrete reassurance, and it is the same object the landing page uses, so the
-  two surfaces stay one product.
+  this exact moment: which accounts am I about to connect. Showing the six marks is
+  concrete reassurance, and it is the same object the landing page uses, so the two
+  surfaces stay one product.
 */
 const NETWORKS: Array<{ network: Network; tone: "dark" | "stone" | "accent" }> = [
   { network: "instagram", tone: "stone" },
   { network: "x", tone: "dark" },
   { network: "linkedin", tone: "dark" },
   { network: "facebook", tone: "accent" },
-  { network: "tiktok", tone: "stone" },
   { network: "threads", tone: "dark" },
   { network: "telegram", tone: "accent" },
-  { network: "reddit", tone: "stone" },
 ];
 
 /*
@@ -94,11 +92,11 @@ export default function AuthLayout({
         <div className="relative flex h-full items-center justify-center p-12 xl:p-16">
           <div className="w-full max-w-sm">
             <p className="type-sub text-[1.375rem] leading-[1.38] text-balance text-foreground xl:text-[1.5rem]">
-              One queue for eight networks, with the replies and the numbers in
-              the same place.
+              One queue for six networks, with the replies and the numbers in the
+              same place.
             </p>
 
-            <ul className="mt-9 grid grid-cols-4 gap-x-4 gap-y-5">
+            <ul className="mt-9 grid grid-cols-3 gap-x-5 gap-y-6">
               {NETWORKS.map((item) => (
                 <li key={item.network} className="flex justify-center">
                   <Tile
@@ -112,7 +110,7 @@ export default function AuthLayout({
             </ul>
 
             <p className="mt-9 border-t border-[#eec4b1] pt-5 text-[14px] leading-6 text-[#7c4a38]">
-              Every plan reaches all eight, including Free.
+              Every plan reaches all six, including Free.
             </p>
           </div>
         </div>

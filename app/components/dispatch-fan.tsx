@@ -113,22 +113,21 @@ type Spec = {
 };
 
 /*
-  Exactly one outbound tile per supported network, spread over the six paths so
-  that where two tiles share a path they are far apart in phase.
+  One outbound tile per supported network, and with six networks that is now exactly
+  one per path. No path doubles up, so the phases no longer have to be kept apart to
+  stop two tiles overlapping on the same curve.
 
   Bodies stay inside the page palette rather than taking each brand's own colour:
-  eight brand colours at once reads as a logo soup and breaks the single-accent
-  rule. The mark identifies the network; the tile stays PostPublish's.
+  six brand colours at once reads as a logo soup and breaks the single-accent rule.
+  The mark identifies the network; the tile stays PostPublish's.
 */
 const CARDS: Spec[] = [
   { path: 0, family: "stone", network: "instagram", size: 46, tilt: -5, period: 15000, phase: 0.1, direction: "out" },
   { path: 1, family: "dark", network: "linkedin", size: 50, tilt: 4, period: 17000, phase: 0.55, direction: "out" },
   { path: 2, family: "dark", network: "x", size: 44, tilt: -3, period: 14000, phase: 0.3, direction: "out" },
-  { path: 3, family: "stone", network: "tiktok", size: 48, tilt: 6, period: 16000, phase: 0.72, direction: "out" },
+  { path: 3, family: "accent", network: "telegram", size: 48, tilt: 6, period: 16000, phase: 0.72, direction: "out" },
   { path: 4, family: "accent", network: "facebook", size: 46, tilt: -6, period: 18000, phase: 0.18, direction: "out" },
   { path: 5, family: "dark", network: "threads", size: 44, tilt: 3, period: 15500, phase: 0.62, direction: "out" },
-  { path: 2, family: "accent", network: "telegram", size: 48, tilt: 4, period: 14000, phase: 0.76, direction: "out" },
-  { path: 4, family: "stone", network: "reddit", size: 44, tilt: -4, period: 18000, phase: 0.64, direction: "out" },
   // Replies coming back. Small and unbranded: a mark is illegible at this size,
   // and a reply is not itself a post.
   { path: 1, family: "stone", size: 22, tilt: -8, period: 19000, phase: 0.25, direction: "in" },

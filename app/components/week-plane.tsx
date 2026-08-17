@@ -51,9 +51,11 @@ const WEEK: Day[] = [
   },
   { label: "Tue", posts: [{ network: "linkedin", tone: "dark", t: 0.44 }] },
   {
+    // Still four deep, which is the pile-up the copy points at. Networks repeat
+    // across the week because a real queue posts to the same place more than once.
     label: "Wed",
     posts: [
-      { network: "tiktok", tone: "stone", t: 0.1 },
+      { network: "linkedin", tone: "dark", t: 0.1 },
       { network: "threads", tone: "dark", t: 0.35 },
       { network: "facebook", tone: "accent", t: 0.58 },
       { network: "x", tone: "dark", t: 0.83 },
@@ -64,7 +66,6 @@ const WEEK: Day[] = [
     label: "Fri",
     posts: [
       { network: "telegram", tone: "accent", t: 0.22 },
-      { network: "reddit", tone: "stone", t: 0.5 },
       { network: "instagram", tone: "stone", t: 0.76 },
     ],
   },
@@ -73,7 +74,7 @@ const WEEK: Day[] = [
     label: "Sun",
     posts: [
       { network: "facebook", tone: "accent", t: 0.26 },
-      { network: "tiktok", tone: "stone", t: 0.68 },
+      { network: "telegram", tone: "accent", t: 0.68 },
     ],
   },
 ];

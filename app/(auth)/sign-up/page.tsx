@@ -5,7 +5,7 @@ import { SignUpForm } from "../../components/auth-forms";
 export const metadata: Metadata = {
   title: "Create your PostPublish account",
   description:
-    "Start on the free plan. One queue for eight networks, with replies and tracking in the same place.",
+    "Start on the free plan. One queue for six networks, with replies and tracking in the same place.",
 };
 
 export default function SignUpPage() {

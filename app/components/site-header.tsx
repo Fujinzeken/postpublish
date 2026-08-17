@@ -58,7 +58,10 @@ export function SiteHeader() {
         <button
           type="button"
           onClick={() => setOpen((v) => !v)}
-          className={`inline-flex items-center justify-center rounded-md p-2 text-foreground md:hidden ${focus}`}
+          // 44px square. A 20px icon with p-2 came to 36px, which is under the
+          // comfortable tap target and this is the only control in the header on a
+          // phone.
+          className={`-mr-2.5 inline-flex h-11 w-11 items-center justify-center rounded-md text-foreground md:hidden ${focus}`}
           aria-label="Toggle menu"
           aria-expanded={open}
           aria-controls="mobile-nav"

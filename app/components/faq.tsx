@@ -17,7 +17,7 @@ import { Reveal } from "./reveal";
 */
 
 /*
-  Every answer here restates something the page already claims: the eight networks,
+  Every answer here restates something the page already claims: the six networks,
   the free plan, managed channels, replies held for review, add-ons for overages.
   Nothing invents policy.
 
@@ -28,7 +28,7 @@ import { Reveal } from "./reveal";
 const FAQS = [
   {
     q: "Which networks can PostPublish publish to?",
-    a: "Instagram, X, LinkedIn, Facebook, Threads, TikTok, Telegram and Reddit. Every plan reaches all eight, including Free.",
+    a: "Instagram, X, LinkedIn, Facebook, Threads and Telegram. Every plan reaches all six, including Free.",
   },
   {
     q: "Do I need a card to start?",

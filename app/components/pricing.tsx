@@ -216,7 +216,7 @@ export function Pricing() {
             Four plans, no surprises.
           </h2>
           <p className="type-body mt-5 text-base leading-7 text-muted-foreground sm:text-[17px]">
-            Every plan reaches all eight networks. Upgrade, downgrade or cancel
+            Every plan reaches all six networks. Upgrade, downgrade or cancel
             from your settings.
           </p>
         </Reveal>
@@ -246,7 +246,7 @@ export function Pricing() {
           </p>
           <Link
             href="/pricing"
-            className={`group inline-flex shrink-0 items-center gap-1.5 text-[14px] font-medium text-foreground transition-colors duration-200 ease-out hover:text-accent ${FOCUS}`}
+            className={`group inline-flex shrink-0 items-center gap-1.5 py-2 text-[14px] font-medium text-foreground transition-colors duration-200 ease-out hover:text-accent ${FOCUS}`}
           >
             Compare every limit
             <ArrowRight

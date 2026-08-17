@@ -9,7 +9,7 @@ import { BRAND_MARKS, type Network } from "./brand-marks";
   the top left, with a warm shadow, a hairline ring and a specular sheen over its
   upper half.
 
-  Bodies stay in the page palette instead of each brand's own colour. Eight brand
+  Bodies stay in the page palette instead of each brand's own colour. Six brand
   colours at once is logo soup and breaks the single-accent rule; the mark carries
   the identification on its own.
 */

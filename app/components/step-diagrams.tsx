@@ -16,7 +16,7 @@ import { type Network } from "./brand-marks";
   website.
 
   Each diagram states its step as a shape:
-    connect  eight accounts resolve to a connected set
+    connect  six accounts resolve to a connected set
     adapt    one draft becomes three native formats
     reply    many inbound threads converge on one inbox
 */
@@ -34,17 +34,15 @@ function useStill() {
   return reduce ?? false;
 }
 
-/* 1. Connect: the eight supported accounts, each resolving to connected. */
+/* 1. Connect: the six supported accounts, each resolving to connected. */
 
 const ACCOUNTS: Array<{ network: Network; tone: "dark" | "stone" | "accent" }> = [
   { network: "instagram", tone: "stone" },
   { network: "x", tone: "dark" },
   { network: "linkedin", tone: "dark" },
   { network: "facebook", tone: "accent" },
-  { network: "tiktok", tone: "stone" },
   { network: "threads", tone: "dark" },
   { network: "telegram", tone: "accent" },
-  { network: "reddit", tone: "stone" },
 ];
 
 export function ConnectDiagram() {
@@ -56,7 +54,9 @@ export function ConnectDiagram() {
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 bg-[radial-gradient(60%_70%_at_50%_0%,rgba(220,74,40,0.07),transparent_70%)]"
       />
-      <ul className="relative mx-auto grid max-w-md grid-cols-4 gap-x-5 gap-y-6 sm:gap-x-7">
+      {/* Three columns, not four: six accounts across four columns would leave two
+          orphans on the second row. */}
+      <ul className="relative mx-auto grid max-w-xs grid-cols-3 gap-x-6 gap-y-7 sm:max-w-sm sm:gap-x-8">
         {ACCOUNTS.map((account, i) => (
           <motion.li
             key={account.network}
@@ -112,7 +112,9 @@ const FORMATS: Array<{
   label: string;
 }> = [
   { network: "instagram", tone: "stone", box: "h-16 w-16", label: "Square" },
-  { network: "tiktok", tone: "dark", box: "h-[68px] w-10", label: "Vertical" },
+  // Facebook takes the vertical slot now that TikTok is gone; reels and stories
+  // are the format there, so the shape still matches the network.
+  { network: "facebook", tone: "dark", box: "h-[68px] w-10", label: "Vertical" },
   { network: "linkedin", tone: "accent", box: "h-11 w-[76px]", label: "Wide" },
 ];
 
@@ -203,7 +205,7 @@ const INBOUND: Array<{ network: Network; tone: "dark" | "stone" | "accent" }> = 
   { network: "instagram", tone: "stone" },
   { network: "x", tone: "dark" },
   { network: "telegram", tone: "accent" },
-  { network: "reddit", tone: "stone" },
+  { network: "linkedin", tone: "dark" },
 ];
 
 export function ReplyDiagram() {
