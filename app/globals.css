@@ -1,26 +1,309 @@
 @import "tailwindcss";
 
+/*
+  PostPublish design tokens.
+
+  Warm stone neutrals with a single vermilion accent. Light only: the brief asked
+  for light colours, and `color-scheme: light` stops the browser theming form
+  controls and scrollbars against the palette.
+*/
 :root {
+  color-scheme: light;
+
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #1c1917;
+
+  --muted: #f5f5f4;
+  /*
+    The lightest text tone on the page, and the floor. It is 4.80:1 on white and
+    4.59:1 on --surface-subtle, so it clears AA on both grounds the page uses.
+
+    There was a lighter --subtle-foreground (#a8a29e) above this. It was removed
+    rather than adjusted: at 2.52:1 it failed AA everywhere, and no value light
+    enough to be a distinct third step can pass on the off-white ground. A tone
+    that cannot legally carry text is not a text token.
+  */
+  --muted-foreground: #78716c;
+
+  --border: #e7e5e4;
+  --input: #e7e5e4;
+  --ring: #dc4a28;
+
+  --surface-subtle: #fafaf9;
+  --surface-muted: #f5f5f4;
+
+  /*
+    One accent hue, in two tones for two jobs.
+
+    --accent is the graphic tone: icons, marks, hairlines, the hero beams. Against
+    white it is 3.78:1, which clears the 3:1 WCAG bar for graphical objects but
+    NOT the 4.5:1 bar for text.
+
+    --accent-strong is therefore the only tone allowed under white text. It is
+    5.22:1 on white, and --accent-hover is 6.62:1, so both pass AA at the 15px
+    label size the buttons actually use. Never put white text on --accent.
+  */
+  --accent: #dc4a28;
+  --accent-strong: #c23f20;
+  --accent-hover: #a8341a;
+  --accent-tint: #fdf2ef;
+
+  --destructive: #dc2626;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-surface-subtle: var(--surface-subtle);
+  --color-surface-muted: var(--surface-muted);
+  --color-accent: var(--accent);
+  --color-accent-strong: var(--accent-strong);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-tint: var(--accent-tint);
+  --color-destructive: var(--destructive);
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --font-sans: var(--font-geist);
+  --font-display: var(--font-bricolage);
+
+  --radius-md: 0.625rem;
+
+  /*
+    Tailwind's built-in easings are deliberately overridden here, so every
+    `ease-out` on the page gets the strong curve rather than the weak default.
+    ease-out for anything entering or answering a press; ease-in-out for something
+    moving on screen. Never ease-in on UI: it delays the first frame, which is
+    exactly when the eye is watching hardest.
+  */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
 }
 
 body {
-  background: var(--background);
+  background-color: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+}
+
+/*
+  Browser surfaces. These ship with defaults that belong to no design system, and
+  leaving them is what makes a page feel assembled rather than built.
+*/
+::selection {
+  background-color: #fbd5c5;
+  color: #48210f;
+}
+
+/* Firefox */
+html {
+  scrollbar-color: #d6d3d1 var(--surface-subtle);
+}
+
+/* WebKit. The inset border is what gives the thumb its breathing room. */
+::-webkit-scrollbar {
+  width: 13px;
+  height: 13px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: var(--surface-subtle);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #d6d3d1;
+  border: 3.5px solid var(--surface-subtle);
+  border-radius: 999px;
+}
+
+@media (hover: hover) {
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: #b0a9a4;
+  }
+}
+
+:where(input, textarea) {
+  caret-color: var(--accent);
+}
+
+a {
+  text-underline-offset: 3px;
+}
+
+/* Prices and any figure that swaps in place, so digits never shift width. */
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+/*
+  Type scale. Fluid rather than stepped at breakpoints, and with real distance
+  between the steps: every heading on this page used to compute to the same size,
+  which is why it read flat regardless of what the copy said.
+
+  Optical sizing is pinned per step, because left to itself the browser
+  interpolates opsz off the computed size and the display voice drifts between
+  breakpoints.
+*/
+.type-display {
+  font-family: var(--font-display);
+  font-size: clamp(2.25rem, 1.15rem + 4.7vw, 4.25rem);
+  font-weight: 600;
+  line-height: 1.02;
+  letter-spacing: -0.034em;
+  font-variation-settings: "opsz" 72;
+  text-wrap: balance;
+}
+
+.type-section {
+  font-family: var(--font-display);
+  font-size: clamp(1.875rem, 1.05rem + 3.1vw, 3.25rem);
+  font-weight: 600;
+  line-height: 1.06;
+  letter-spacing: -0.03em;
+  font-variation-settings: "opsz" 48;
+  text-wrap: balance;
+}
+
+.type-sub {
+  font-family: var(--font-display);
+  font-size: clamp(1.125rem, 0.98rem + 0.55vw, 1.375rem);
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.016em;
+  font-variation-settings: "opsz" 24;
+}
+
+/* Body copy sits inside a real measure and avoids orphans. */
+.type-body {
+  text-wrap: pretty;
+}
+
+/*
+  The FAQ uses native details/summary, so disclosure, keyboard handling and
+  find-in-page all come from the browser rather than from a hand-built accordion.
+  These rules give it the height transition the element does not animate on its
+  own. Where ::details-content is unsupported the disclosure simply snaps, which is
+  the correct degradation.
+*/
+@media (prefers-reduced-motion: no-preference) {
+  :root {
+    interpolate-size: allow-keywords;
+  }
+
+  details::details-content {
+    block-size: 0;
+    overflow: hidden;
+    transition:
+      block-size 280ms cubic-bezier(0.23, 1, 0.32, 1),
+      content-visibility 280ms allow-discrete;
+  }
+
+  details[open]::details-content {
+    block-size: auto;
+  }
+}
+
+/* The browser's own marker is replaced by a drawn icon in the component. */
+summary::-webkit-details-marker {
+  display: none;
+}
+
+summary {
+  list-style: none;
+  cursor: pointer;
+}
+
+/* Generous marketing measure. */
+.container-wide {
+  width: 100%;
+  max-width: 72rem;
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+}
+
+@media (width >= 40rem) {
+  .container-wide {
+    padding-inline: 2rem;
+  }
+}
+
+/*
+  A fine grain over the whole page. On a light, largely flat design this is the
+  cheapest real gain in perceived quality: it breaks up the flat white and stops
+  the large gradient washes from banding. Fixed and pointer-events-none so it
+  never repaints on scroll.
+*/
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Fade-and-rise, for anything that is not a display line. */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.rise {
+  animation: rise 0.75s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/*
+  Display lines rise out from behind a mask instead of fading in, which reads as
+  deliberate typesetting rather than a generic entrance. The mask carries bottom
+  padding so descenders (the p and y in "Reply everywhere.") are not clipped, and
+  an equal negative margin so that padding costs no layout space.
+*/
+.line-mask {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.16em;
+  margin-bottom: -0.16em;
+}
+
+@keyframes line-rise {
+  from {
+    transform: translateY(120%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.line-rise {
+  display: block;
+  animation: line-rise 0.95s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.rise-1 {
+  animation-delay: 90ms;
+}
+.rise-2 {
+  animation-delay: 180ms;
+}
+.rise-3 {
+  animation-delay: 270ms;
+}
+.rise-4 {
+  animation-delay: 360ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rise,
+  .line-rise {
+    animation: none;
+  }
 }

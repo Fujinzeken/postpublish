@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Build-time CommonJS generator, never bundled. See its header for usage.
+    "gen-marks.cjs",
   ]),
 ]);
 

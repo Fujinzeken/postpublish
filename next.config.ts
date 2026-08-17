@@ -1,7 +1,9 @@
 import type { NextConfig } from "next";
 
-const nextConfig: NextConfig = {
-  /* config options here */
-};
+/*
+  No remote image patterns. The step diagrams replaced the seeded stock
+  photography, so nothing on the page loads an external image any more.
+*/
+const nextConfig: NextConfig = {};
 
 export default nextConfig;
