@@ -3,6 +3,7 @@ import { Features } from "../components/features";
 import { HowItWorks } from "../components/how-it-works";
 import { Testimonials } from "../components/testimonials";
 import { Pricing } from "../components/pricing";
+import { AddOns } from "../components/add-ons";
 import { Faq } from "../components/faq";
 import { ClosingCta } from "../components/closing-cta";
 
@@ -24,6 +25,7 @@ export default function Home() {
       <HowItWorks />
       <Testimonials />
       <Pricing />
+      <AddOns />
       <Faq />
       <ClosingCta />
     </>
