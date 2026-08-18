@@ -1,5 +1,5 @@
-import Link from "next/link";
-import { ArrowRight, Check } from "lucide-react";
+import { AppAuthLink } from "./app-auth-link";
+import { Check } from "lucide-react";
 import { Reveal } from "./reveal";
 
 /*
@@ -153,8 +153,7 @@ function PlanColumn({ plan }: { plan: Plan }) {
         </span>
       </div>
 
-      <Link
-        href="/sign-up"
+      <AppAuthLink
         className={
           featured
             ? `${FOCUS} mt-6 inline-flex h-11 items-center justify-center rounded-md bg-accent-strong px-5 text-[14.5px] font-medium text-white shadow-[0_1px_2px_rgba(88,40,24,0.3),0_10px_26px_-10px_rgba(220,74,40,0.6)] transition-[background-color,box-shadow,transform] duration-200 ease-out hover:bg-accent-hover active:scale-[0.97]`
@@ -162,7 +161,7 @@ function PlanColumn({ plan }: { plan: Plan }) {
         }
       >
         {plan.cta}
-      </Link>
+      </AppAuthLink>
 
       {/*
         The axes, in the same order in every column. No rule under each row: a
@@ -233,29 +232,20 @@ export function Pricing() {
           ))}
         </div>
 
-        <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-          {/*
-            One sentence replaces the four repeated explanation boxes the current
-            plan table carries. It is the same information, said once, where it
-            applies to all four columns.
-          */}
-          <p className="type-body max-w-2xl text-[13.5px] leading-6 text-muted-foreground">
-            A managed channel hands one connected account to a teammate as its
-            dedicated manager. Extra managed channels, seats and posts are
-            available as add-ons on every paid plan.
-          </p>
-          <Link
-            href="/pricing"
-            className={`group inline-flex shrink-0 items-center gap-1.5 py-2 text-[14px] font-medium text-foreground transition-colors duration-200 ease-out hover:text-accent ${FOCUS}`}
-          >
-            Compare every limit
-            <ArrowRight
-              className="h-4 w-4 transition-transform duration-300 ease-out group-hover:translate-x-0.5"
-              strokeWidth={2}
-              aria-hidden="true"
-            />
-          </Link>
-        </div>
+        {/*
+          One sentence replaces the four repeated explanation boxes the current
+          plan table carries. It is the same information, said once, where it
+          applies to all four columns.
+
+          It used to sit opposite a "Compare every limit" link. That pointed at a
+          page that does not exist, and the four columns above already list every
+          limit, so it was sending people away from the answer they were looking at.
+        */}
+        <p className="type-body mt-7 max-w-2xl text-[13.5px] leading-6 text-muted-foreground">
+          A managed channel hands one connected account to a teammate as its
+          dedicated manager. Extra managed channels, seats and posts are available
+          as add-ons on every paid plan.
+        </p>
       </div>
     </section>
   );

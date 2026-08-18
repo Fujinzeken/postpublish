@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { AppAuthLink } from "./app-auth-link";
 import { ArrowRight } from "lucide-react";
 import { Reveal } from "./reveal";
 import {
@@ -61,8 +61,7 @@ export function HowItWorks() {
                   Connect your accounts, fill the queue, and handle everything
                   that comes back from one place.
                 </p>
-                <Link
-                  href="/sign-up"
+                <AppAuthLink
                   className="group mt-8 inline-flex h-12 items-center justify-center gap-2 rounded-md bg-accent-strong px-6 text-[15px] font-medium whitespace-nowrap text-white shadow-[0_1px_2px_rgba(88,40,24,0.28),0_8px_24px_-8px_rgba(220,74,40,0.55)] transition-[background-color,box-shadow,transform] duration-200 ease-out hover:bg-accent-hover hover:shadow-[0_1px_2px_rgba(88,40,24,0.3),0_12px_30px_-8px_rgba(220,74,40,0.6)] active:scale-[0.97] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
                 >
                   Start free trial
@@ -71,7 +70,7 @@ export function HowItWorks() {
                     strokeWidth={2}
                     aria-hidden="true"
                   />
-                </Link>
+                </AppAuthLink>
               </Reveal>
             </div>
           </div>

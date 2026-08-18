@@ -84,7 +84,6 @@ const WEEK: Day[] = [
   fixed 66px card is proportionally enormous on a 390px surface and the columns
   collide; the positions are percentages so only the size needs to scale.
 */
-const CARD_W = "var(--card)";
 const CARD_SHADOW_W = "calc(var(--card) + 16px)";
 const CARD_SHADOW_H = "calc(var(--card) * 0.72)";
 
@@ -93,6 +92,46 @@ const LIFT = 20;
 
 /** Map time of day to a position down the column. */
 const topFor = (t: number) => 12 + t * 70;
+
+type PlacedCard = {
+  key: string;
+  network: Network;
+  tone: Tone;
+  /** Centre of the card's day column, in percent across the surface. */
+  cx: number;
+  /** Position down that column, in percent. */
+  top: number;
+  /** Entrance delay, taken from the card's place in the week's reading order. */
+  delay: number;
+};
+
+/*
+  The week flattened into placed cards, resolved once here rather than counted
+  during render.
+
+  The cards stagger in across the whole week, so each one needs to know its
+  position in a sequence that runs through every day. That was a counter
+  incremented inside the nested map, which mutates during render: it happened to
+  work, but it made the output depend on render order rather than on the data, and
+  React's immutability rule flags it for exactly that reason.
+
+  WEEK is a static constant, so a card's place in the sequence can never change.
+  Deriving it at module scope computes it once for the life of the module instead
+  of on every render, and leaves the component a pure function of its data.
+
+  Flattening also drops a wrapper div per day that only ever carried a key. The
+  cards are absolutely positioned against the surface, so the day nesting bought
+  nothing structurally.
+*/
+const CARDS: PlacedCard[] = WEEK.flatMap((day, dayIndex) =>
+  day.posts.map((post, postIndex) => ({
+    key: `${day.label}-${postIndex}`,
+    network: post.network,
+    tone: post.tone,
+    cx: (dayIndex + 0.5) * (100 / 7),
+    top: topFor(post.t),
+  })),
+).map((card, order) => ({ ...card, delay: 0.1 + order * 0.05 }));
 
 /*
   Tone styling is not duplicated here. The tile is defined once in tile.tsx and
@@ -128,8 +167,6 @@ export function WeekPlane() {
     return () => window.removeEventListener("pointermove", onMove);
   }, [still, pointerX, pointerY]);
 
-  let cardIndex = 0;
-
   return (
     <div
       className="relative w-full [--card:38px] [perspective:1500px] [perspective-origin:50%_45%] sm:[--card:54px] lg:[--card:66px]"
@@ -158,82 +195,65 @@ export function WeekPlane() {
             }}
           />
 
-          {WEEK.map((day, i) => {
-            const cx = (i + 0.5) * (100 / 7);
-
-            return (
-              <div key={day.label}>
-                {/*
-                  No day placards. A label parented to the surface inherits its
-                  tilt and skews flat, and counter-rotating it back to face the
-                  viewer only works while the surface is perfectly still, which it
-                  is not once the pointer nudges it. Seven columns plus the
-                  headline already read as a week.
-                */}
-                {day.posts.map((post, j) => {
-                  const top = topFor(post.t);
-                  const delay = 0.1 + cardIndex * 0.05;
-                  cardIndex += 1;
-
-                  return (
-                    <div key={`${day.label}-${j}`}>
-                      {/* Contact shadow left on the surface. This is what sells
+          {/*
+            No day placards. A label parented to the surface inherits its tilt and
+            skews flat, and counter-rotating it back to face the viewer only works
+            while the surface is perfectly still, which it is not once the pointer
+            nudges it. Seven columns plus the headline already read as a week.
+          */}
+          {CARDS.map(({ key, network, tone, cx, top, delay }) => (
+            <div key={key}>
+              {/* Contact shadow left on the surface. This is what sells
                           the float; a shadow attached to the card alone reads
                           flat. */}
-                      <motion.div
-                        className="absolute rounded-full bg-[#4a3229]"
-                        style={{
-                          left: `${cx}%`,
-                          top: `${top}%`,
-                          width: CARD_SHADOW_W,
-                          height: CARD_SHADOW_H,
-                          x: "-50%",
-                          y: "-50%",
-                          filter: "blur(9px)",
-                          translateZ: 1,
-                        }}
-                        initial={still ? false : { opacity: 0 }}
-                        whileInView={{ opacity: 0.16 }}
-                        viewport={{ once: true, amount: 0.3 }}
-                        transition={{ duration: 0.7, delay }}
-                      />
+              <motion.div
+                className="absolute rounded-full bg-[#4a3229]"
+                style={{
+                  left: `${cx}%`,
+                  top: `${top}%`,
+                  width: CARD_SHADOW_W,
+                  height: CARD_SHADOW_H,
+                  x: "-50%",
+                  y: "-50%",
+                  filter: "blur(9px)",
+                  translateZ: 1,
+                }}
+                initial={still ? false : { opacity: 0 }}
+                whileInView={{ opacity: 0.16 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 0.7, delay }}
+              />
 
-                      <motion.div
-                        className="absolute"
-                        style={{
-                          left: `${cx}%`,
-                          top: `${top}%`,
-                          x: "-50%",
-                          y: "-50%",
-                        }}
-                        initial={
-                          still
-                            ? false
-                            : { opacity: 0, translateZ: 0, scale: 0.88 }
-                        }
-                        whileInView={{ opacity: 1, translateZ: LIFT, scale: 1 }}
-                        viewport={{ once: true, amount: 0.3 }}
-                        transition={{
-                          duration: 0.9,
-                          delay,
-                          ease: [0.23, 1, 0.32, 1],
-                        }}
-                      >
-                        {/* Sized off the --card variable the root sets per
+              <motion.div
+                className="absolute"
+                style={{
+                  left: `${cx}%`,
+                  top: `${top}%`,
+                  x: "-50%",
+                  y: "-50%",
+                }}
+                initial={
+                  still ? false : { opacity: 0, translateZ: 0, scale: 0.88 }
+                }
+                whileInView={{ opacity: 1, translateZ: LIFT, scale: 1 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{
+                  duration: 0.9,
+                  delay,
+                  ease: [0.23, 1, 0.32, 1],
+                }}
+              >
+                {/* Sized off the --card variable the root sets per
                             breakpoint, so the tile scales with the surface. */}
-                        <Tile
-                          network={post.network}
-                          tone={post.tone}
-                          className="h-[var(--card)] w-[var(--card)] rounded-[0.85rem]"
-                          markClassName="h-4 w-4 sm:h-[21px] sm:w-[21px] lg:h-[26px] lg:w-[26px]"
-                        />
-                      </motion.div>
-                    </div>
-                  );
-                })}
-              </div>
-            );
-          })}
+                <Tile
+                  network={network}
+                  tone={tone}
+                  className="h-[var(--card)] w-[var(--card)] rounded-[0.85rem]"
+                  markClassName="h-4 w-4 sm:h-[21px] sm:w-[21px] lg:h-[26px] lg:w-[26px]"
+                />
+              </motion.div>
+            </div>
+          ))}
         </motion.div>
       </div>
     </div>

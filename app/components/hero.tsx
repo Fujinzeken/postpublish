@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { AppAuthLink } from "./app-auth-link";
 import { DispatchFan } from "./dispatch-fan";
 import { ArrowRight } from "lucide-react";
 
@@ -50,8 +51,7 @@ export function Hero() {
           </p>
 
           <div className="rise rise-3 mt-9 flex flex-col gap-3 sm:flex-row">
-            <Link
-              href="/sign-up"
+            <AppAuthLink
               className="group inline-flex h-12 w-full items-center justify-center gap-2 rounded-md bg-accent-strong px-6 text-[15px] font-medium whitespace-nowrap text-white shadow-[0_1px_2px_rgba(88,40,24,0.28),0_8px_24px_-8px_rgba(220,74,40,0.55)] transition-[background-color,box-shadow,transform] hover:bg-accent-hover hover:shadow-[0_1px_2px_rgba(88,40,24,0.3),0_12px_30px_-8px_rgba(220,74,40,0.6)] active:scale-[0.97] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring sm:w-auto"
             >
               Start free trial
@@ -60,7 +60,7 @@ export function Hero() {
                 strokeWidth={2}
                 aria-hidden="true"
               />
-            </Link>
+            </AppAuthLink>
             <Link
               href="/#how-it-works"
               className="inline-flex h-12 w-full items-center justify-center rounded-md border border-border bg-background/70 px-6 text-[15px] font-medium whitespace-nowrap text-foreground backdrop-blur-sm transition-colors hover:border-stone-300 hover:bg-surface-subtle active:scale-[0.97] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring sm:w-auto"

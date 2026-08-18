@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { AppAuthLink } from "./app-auth-link";
 import { ArrowRight } from "lucide-react";
 import { Reveal } from "./reveal";
 
@@ -62,8 +63,7 @@ export function ClosingCta() {
           </p>
 
           <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <Link
-              href="/sign-up"
+            <AppAuthLink
               className="group inline-flex h-12 w-full items-center justify-center gap-2 rounded-md bg-accent-strong px-7 text-[15px] font-medium whitespace-nowrap text-white shadow-[0_1px_2px_rgba(88,40,24,0.3),0_10px_28px_-10px_rgba(220,74,40,0.6)] transition-[background-color,box-shadow,transform] duration-200 ease-out hover:bg-accent-hover hover:shadow-[0_1px_2px_rgba(88,40,24,0.32),0_14px_34px_-10px_rgba(220,74,40,0.65)] active:scale-[0.97] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring sm:w-auto"
             >
               Start free trial
@@ -72,7 +72,7 @@ export function ClosingCta() {
                 strokeWidth={2}
                 aria-hidden="true"
               />
-            </Link>
+            </AppAuthLink>
             <Link
               href="/#pricing"
               className="inline-flex h-12 w-full items-center justify-center rounded-md border border-[#eabfae] bg-white/70 px-7 text-[15px] font-medium whitespace-nowrap text-foreground backdrop-blur-sm transition-[background-color,border-color,transform] duration-200 ease-out hover:border-[#e0a993] hover:bg-white active:scale-[0.97] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring sm:w-auto"
